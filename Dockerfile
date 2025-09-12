@@ -1,21 +1,10 @@
 FROM debian:trixie
-ARG NODE_VERSION=20
-ENV PORTNUMBER=8080
+ENV NVM_DIR=/root/.nvm
+ENV PORTNUMBER=3000
+EXPOSE $PORTNUMBER
 
 # install curl
 RUN apt-get update && apt-get install curl unzip -y
-
-# install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-
-# set env
-ENV NVM_DIR=/root/.nvm
-
-# install node
-RUN bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION"
-
-# set ENTRYPOINT for reloading nvm-environment
-ENTRYPOINT ["bash", "-c", "source $NVM_DIR/nvm.sh && exec \"$@\"", "--"]
 
 # Download and unpack the latest Peacock (Linux) release
 RUN set -eux; \
@@ -31,10 +20,17 @@ RUN set -eux; \
     rm "${FILE_NAME}"; \
     mv "${FOLDER_NAME}" peacock
 
+# install nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+# install node
+RUN bash -c "source $NVM_DIR/nvm.sh && cd /peacock && nvm install"
+
 # Set working directory
 WORKDIR /peacock
 
-EXPOSE $PORTNUMBER
+# set ENTRYPOINT for reloading nvm-environment
+ENTRYPOINT ["bash", "-c", "source $NVM_DIR/nvm.sh && exec \"$@\"", "--"]
 
 # Run Peacock
-CMD PORT=$PORTNUMBER node --enable-source-maps --harmony chunk0.js --hmr
+CMD PORT=$PORTNUMBER node --enable-source-maps chunk0.js
