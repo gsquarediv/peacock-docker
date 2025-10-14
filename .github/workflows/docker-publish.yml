@@ -6,10 +6,9 @@ name: Docker
 # documentation.
 
 on:
-  push:
-    tags:
-      - 'v*.*.*'
   workflow_dispatch:
+  release:
+    types: [published]
 
 env:
   # Use docker.io for Docker Hub if empty
