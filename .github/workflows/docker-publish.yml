@@ -7,8 +7,24 @@ name: Docker
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
+    inputs:
+      tag-name:
+        description: 'Tag Name'
+        required: false
+        default: 'master'
+        type: string
+      is-latest:
+        required: false
+        type: boolean
+  workflow_call:
+    inputs:
+      tag-name:
+        description: 'Tag Name'
+        required: true
+        type: string
+      is-latest:
+        required: true
+        type: boolean
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -62,6 +78,9 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=${{ inputs.tag-name }}
+            type=raw,value=latest,enable=${{ inputs.is-latest }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
