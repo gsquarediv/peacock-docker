@@ -1,0 +1,41 @@
+name: Sync To Peacock Release
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # every hour
+  workflow_dispatch:      # allow manual trigger
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # needed to create tags/releases
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest Peacock release info
+        id: peacock
+        run: |
+          API="https://api.github.com/repos/thepeacockproject/Peacock/releases/latest"
+          RESPONSE=$(curl -s $API)
+          TAG=$(echo "$RESPONSE" | jq -r '.tag_name')
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+
+      - name: Check if tag exists in this repo
+        id: check
+        run: |
+          TAG=${{ steps.peacock.outputs.tag }}
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create release in this repo
+        if: steps.check.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG=${{ steps.peacock.outputs.tag }}
+          gh release create "$TAG" --title "Peacock $TAG" --notes "Synced from thepeacockproject/Peacock $TAG"
