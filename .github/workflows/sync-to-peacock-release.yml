@@ -10,6 +10,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write    # needed to create tags/releases
+    outputs:
+      tag: ${{ steps.peacock.outputs.tag }}
+      exists: ${{ steps.check.outputs.exists }}
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -39,3 +43,11 @@ jobs:
         run: |
           TAG=${{ steps.peacock.outputs.tag }}
           gh release create "$TAG" --title "Peacock $TAG" --notes "Synced from thepeacockproject/Peacock $TAG"
+  
+  call-docker-build:
+    needs: sync
+    if: needs.sync.outputs.exists == 'false'
+    uses: ./.github/workflows/docker-publish.yml
+    with:
+      tag-name: ${{ needs.sync.outputs.tag }}
+      is-latest: true
