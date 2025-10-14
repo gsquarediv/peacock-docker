@@ -2,7 +2,7 @@ name: Sync To Peacock Release
 
 on:
   schedule:
-    - cron: "0 * * * *"  # every hour
+    - cron: "0 1 * * *"  # daily at 1 AM
   workflow_dispatch:      # allow manual trigger
 
 jobs:
