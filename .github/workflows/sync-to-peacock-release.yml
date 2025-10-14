@@ -48,6 +48,7 @@ jobs:
     needs: sync
     if: needs.sync.outputs.exists == 'false'
     permissions:
+      contents: read
       packages: write
       id-token: write
     uses: ./.github/workflows/docker-publish.yml
