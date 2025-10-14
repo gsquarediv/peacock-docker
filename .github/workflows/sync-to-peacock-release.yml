@@ -47,6 +47,9 @@ jobs:
   call-docker-build:
     needs: sync
     if: needs.sync.outputs.exists == 'false'
+    permissions:
+      packages: write
+      id-token: write
     uses: ./.github/workflows/docker-publish.yml
     with:
       tag-name: ${{ needs.sync.outputs.tag }}
