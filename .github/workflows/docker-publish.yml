@@ -46,11 +46,10 @@ jobs:
       - name: Check if tag exists in this repo
         id: target
         run: |
-          EVENT=${{ github.event_name }}
           TAG=${{ steps.peacock.outputs.tag }}
           if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
             echo "tag_latest=false" >> $GITHUB_OUTPUT
-            echo "tag=master" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
           else
             echo "tag_latest=true" >> $GITHUB_OUTPUT
             echo "tag=$TAG" >> $GITHUB_OUTPUT
