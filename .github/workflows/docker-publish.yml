@@ -37,7 +37,7 @@ jobs:
           RESPONSE=$(curl -s $API)
           TAG=$(echo "$RESPONSE" | jq -r '.tag_name')
           echo "tag=$TAG"
-          if [[ "$TAG" =~ ^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$ ]]; then
+          if [[ "$TAG" =~ ^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*) ]]; then
             echo "tag=$TAG" >> $GITHUB_OUTPUT
           else
             exit 1
