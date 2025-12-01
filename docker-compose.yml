@@ -1,0 +1,13 @@
+---
+version: '2'
+services:
+  peacock:
+    image: ghcr.io/gsquarediv/peacock-docker:latest
+    volumes:
+      - userdata:/peacock/userdata
+      - contractSessions:/peacock/contractSessions
+    ports:
+      - 3000:3000
+volumes:
+  userdata:
+  contractSessions:
