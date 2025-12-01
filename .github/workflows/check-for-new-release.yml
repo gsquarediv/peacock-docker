@@ -24,7 +24,7 @@ jobs:
           API="https://api.github.com/repos/thepeacockproject/Peacock/releases/latest"
           RESPONSE=$(curl -s $API)
           TAG=$(echo "$RESPONSE" | jq -r '.tag_name')
-          console.log("tag=$TAG")
+          echo "tag=$TAG"
           if [[ "$TAG" =~ ^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*) ]]; then
             echo "tag=$TAG" >> $GITHUB_OUTPUT
           else
