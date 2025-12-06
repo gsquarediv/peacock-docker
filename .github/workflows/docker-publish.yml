@@ -132,6 +132,8 @@ jobs:
           cache-to: type=gha,mode=max
           no-cache: true # disable caching
           platforms: linux/amd64,linux/arm64
+          provenance: false # Disable provenance to avoid unknown/unknown
+          sbom: false       # Disable sbom to avoid unknown/unknown
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
