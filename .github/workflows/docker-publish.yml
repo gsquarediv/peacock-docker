@@ -1,4 +1,4 @@
-name: Docker build
+name: Check for Peacock release / Docker build
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,26 +6,9 @@ name: Docker build
 # documentation.
 
 on:
+  schedule:
+    - cron: "59 23 * * *"
   workflow_dispatch:
-    inputs:
-      tag-name:
-        description: 'Tag Name'
-        required: false
-        default: 'master'
-        type: string
-      tag_latest:
-        required: false
-        default: false
-        type: boolean
-  workflow_call:
-    inputs:
-      tag-name:
-        description: 'Tag Name'
-        required: true
-        type: string
-      tag_latest:
-        required: true
-        type: boolean
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -34,7 +17,59 @@ env:
   IMAGE_NAME: ${{ github.repository }}
 
 jobs:
+  check_for_new_release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write    # needed to create tags/releases
+    outputs:
+      tag: ${{ steps.target.outputs.tag }}
+      create_new_tag: ${{ steps.target.outputs.create_new_tag }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest Peacock release info
+        id: peacock
+        run: |
+          API="https://api.github.com/repos/thepeacockproject/Peacock/releases/latest"
+          RESPONSE=$(curl -s $API)
+          TAG=$(echo "$RESPONSE" | jq -r '.tag_name')
+          echo "tag=$TAG"
+          if [[ "$TAG" =~ ^v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*) ]]; then
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
+          else
+            exit 1
+          fi
+
+      - name: Check if tag exists in this repo
+        id: target
+        run: |
+          TAG=${{ steps.peacock.outputs.tag }}
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
+            echo "create_new_tag=false" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+          else
+            echo "create_new_tag=true" >> $GITHUB_OUTPUT
+            echo "tag=$TAG" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create tag in this repo
+        if: steps.target.outputs.create_new_tag == 'true'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            await github.rest.git.createRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: 'refs/tags/${{ steps.peacock.outputs.tag }}',
+                sha: context.sha,
+              });
+              console.log("Tag ${{ steps.peacock.outputs.tag }} created successfully.");
+
   build:
+    needs: check_for_new_release
+    if: ${{ needs.check_for_new_release.outputs.create_new_tag == 'true' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -79,8 +114,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
-            type=raw,value=${{ inputs.tag-name }}
-            type=raw,value=latest,enable=${{ inputs.tag_latest }}
+            type=raw,value=${{ needs.check_for_new_release.outputs.tag }}
+            type=raw,value=latest,enable=${{ needs.check_for_new_release.outputs.create_new_tag }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
