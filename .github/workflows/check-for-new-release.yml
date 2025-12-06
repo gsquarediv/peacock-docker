@@ -66,4 +66,5 @@ jobs:
     uses: ./.github/workflows/docker-publish.yml
     with:
       tag-name: ${{ needs.check-for-new-release.outputs.tag }}
-      tag_latest: ${{ needs.check-for-new-release.outputs.tag_latest }}
+      tag_latest: ${{ fromJSON(needs.check-for-new-release.outputs.tag_latest) }} # Cast string to Boolean
+      # See: https://medium.com/@sohail.ra5/github-actions-passing-boolean-input-variables-to-reusable-workflow-call-42d39bf7342e
