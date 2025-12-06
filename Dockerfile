@@ -1,7 +1,7 @@
 FROM debian:trixie
 ENV NVM_DIR=/root/.nvm
-ENV PORTNUMBER=3000
-EXPOSE $PORTNUMBER
+ENV PORT=3000
+EXPOSE $PORT
 
 # install curl
 RUN apt-get update && apt-get install curl unzip -y
@@ -33,4 +33,4 @@ WORKDIR /peacock
 ENTRYPOINT ["bash", "-c", "source $NVM_DIR/nvm.sh && exec \"$@\"", "--"]
 
 # Run Peacock
-CMD PORT=$PORTNUMBER node --enable-source-maps chunk0.js
+CMD ["node", "--enable-source-maps", "chunk0.js"]

@@ -1,5 +1,5 @@
 ---
-version: '2'
+name: peacock
 services:
   peacock:
     image: ghcr.io/gsquarediv/peacock-docker:latest
