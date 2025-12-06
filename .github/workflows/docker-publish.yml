@@ -124,10 +124,13 @@ jobs:
         uses: docker/build-push-action@v6.18.0
         with:
           context: .
+          file: ./Containerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-to: '' # disable caching
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          no-cache: true # disable caching
           platforms: linux/amd64,linux/arm64
 
       # Sign the resulting Docker image digest except on PRs.
