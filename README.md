@@ -1,7 +1,7 @@
 # Peacock‑Docker
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gsquarediv/peacock-docker/docker-publish.yml?style=for-the-badge)
-![License](https://img.shields.io/github/license/gsquarediv/peacock-docker?style=for-the-badge)
+[![GitHub Workflow Status](https://github.com/gsquarediv/peacock-docker/actions/workflows/docker-publish.yml/badge.svg?branch=master)](https://github.com/gsquarediv/peacock-docker/actions/workflows/docker-publish.yml)
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 
 Container image of the [**Peacock**](https://github.com/thepeacockproject/Peacock) server replacement for *HITMAN: World of Assassination*.
 
