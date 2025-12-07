@@ -54,7 +54,7 @@ docker compose up -d
 |---------|-------------|
 | **Zero‑touch installation** | Pull a pre‑built image – no Node.js or Yarn setup needed. |
 | **Multi‑architecture** | Built for `x86_64` & `ARM64`. |
-| **Automatic releases** | GitHub Actions checks upstream releases daily and publishes a new image. |
+| **Automatic releases** | GitHub Actions checks for upstream Peacock releases nightly and publishes a new container image as needed. |
 | **Data persistence** | User data & contract sessions are stored in Docker named volumes. |
 | **Self‑contained** | All dependencies (Node, NVM, Peacock binary) are baked in. |
 | **AGPL‑3.0** | The image respects the upstream license. |
