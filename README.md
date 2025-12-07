@@ -3,7 +3,7 @@
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gsquarediv/peacock-docker/docker-publish.yml?style=for-the-badge)
 ![License](https://img.shields.io/github/license/gsquarediv/peacock-docker?style=for-the-badge)
 
-Containerized version of the [**Peacock**](https://github.com/thepeacockproject/Peacock) server replacement for *HITMAN: World of Assassination*.
+Container image of the [**Peacock**](https://github.com/thepeacockproject/Peacock) server replacement for *HITMAN: World of Assassination*.
 
 > [!NOTE]  
 > This repository **does not** contain the Peacock source code and is not affiliated with Peacock in any way.  This repository is a simple wrapper that only packages the official release from the upstream repository (`thepeacockproject/Peacock`) into a production‑ready container image.
