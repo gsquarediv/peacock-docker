@@ -1,5 +1,8 @@
 # Peacock‑Docker
 
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gsquarediv/peacock-docker/docker-publish.yml?style=for-the-badge)
+![License](https://img.shields.io/github/license/gsquarediv/peacock-docker?style=for-the-badge)
+
 Containerized version of the [**Peacock**](https://github.com/thepeacockproject/Peacock) server replacement for *HITMAN: World of Assassination*.
 
 > [!NOTE]  
@@ -49,9 +52,9 @@ docker compose up -d
 
 | Feature | Description |
 |---------|-------------|
-| **Zero‑touch installation** | Pull a pre‑built image – no Node/Go setup needed. |
+| **Zero‑touch installation** | Pull a pre‑built image – no Node.js or Yarn setup needed. |
 | **Multi‑architecture** | Built for `x86_64` & `ARM64`. |
-| **Automatic releases** | GitHub Actions checks upstream releases daily (or on demand) and publishes a new image. |
+| **Automatic releases** | GitHub Actions checks upstream releases daily and publishes a new image. |
 | **Data persistence** | User data & contract sessions are stored in Docker named volumes. |
 | **Self‑contained** | All dependencies (Node, NVM, Peacock binary) are baked in. |
 | **AGPL‑3.0** | The image respects the upstream license. |
@@ -60,7 +63,7 @@ docker compose up -d
 
 ## 📚 How it works
 
-1. **Containerfile** – Installs `curl`, `unzip`, `node` via NVM, downloads the latest Peacock release, unpacks it, and exposes the required ports.
+1. **Containerfile** – Installs `curl`, `unzip`, `node` via NVM, downloads the latest Peacock release, unpacks it, and exposes the required port.
 2. **docker-compose.yml** – Exposes two named volumes (`userdata` & `contractSessions`) so data survives container restarts.
 3. **GitHub Actions** –
    * `docker-publish.yml` checks the latest Peacock tag.
@@ -81,12 +84,4 @@ See the [LICENSE](LICENSE) file for details.
 ## 👤 Acknowledgements
 
 * **The Peacock Project** – <https://github.com/thepeacockproject>
-
----
-
-### Badges
-
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/gsquarediv/peacock-docker/docker-publish.yml?style=for-the-badge)
-![License](https://img.shields.io/github/license/gsquarediv/peacock-docker?style=for-the-badge)
-
----
+* **Node Version Manager** - <https://github.com/nvm-sh/nvm>
