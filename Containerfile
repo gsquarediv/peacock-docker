@@ -21,7 +21,7 @@ RUN set -eux; \
     mv "${FOLDER_NAME}" peacock
 
 # install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.4/install.sh | bash
 
 # install node
 RUN bash -c "source $NVM_DIR/nvm.sh && cd /peacock && nvm install"
