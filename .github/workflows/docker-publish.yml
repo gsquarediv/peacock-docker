@@ -8,6 +8,8 @@ name: Check for updates and build
 on:
   schedule:
     - cron: "59 23 * * *"
+  pull_request:
+    branches: [ "master" ]
   workflow_dispatch:
 
 env:
