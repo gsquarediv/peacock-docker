@@ -6,7 +6,7 @@
 Container image of the [**Peacock**](https://github.com/thepeacockproject/Peacock) server replacement for *HITMAN: World of Assassination*.
 
 > [!NOTE]  
-> This repository **does not** contain the Peacock source code and is not affiliated with Peacock in any way.  This repository is a simple wrapper that only packages the official release from the upstream repository (`thepeacockproject/Peacock`) into a production‑ready container image.
+> This repository **does not** contain the Peacock source code and is not affiliated with Peacock in any way.  This repository is a simple wrapper that only packages the official release from the upstream repository ([`thepeacockproject/Peacock`](https://github.com/thepeacockproject/Peacock)) into a production‑ready container image.
 
 ---
 
@@ -63,9 +63,9 @@ docker compose up -d
 
 ## 📚 How it works
 
-1. **Containerfile** – Installs `curl`, `unzip`, `node` via NVM, downloads the latest Peacock release, unpacks it, and exposes the required port.
-2. **docker-compose.yml** – Exposes two named volumes (`userdata` & `contractSessions`) so data survives container restarts.
-3. **GitHub Actions** –
+1. **Containerfile:** Installs `curl`, `unzip`, `node` via NVM, downloads the latest Peacock release, unpacks it, and exposes the required port.
+2. **docker-compose.yml:** Exposes two named volumes (`userdata` & `contractSessions`) so data survives container removal.
+3. **GitHub Actions:**
    * `docker-publish.yml` checks the latest Peacock tag.
    * If a new tag appears, a new Docker image is built & pushed to **GitHub Container Registry (ghcr.io)**.
    * The image is signed with **cosign** for provenance.
@@ -84,4 +84,4 @@ See the [LICENSE](LICENSE) file for details.
 ## 👤 Acknowledgements
 
 * **The Peacock Project** – <https://github.com/thepeacockproject>
-* **Node Version Manager** - <https://github.com/nvm-sh/nvm>
+* **Node Version Manager** – <https://github.com/nvm-sh/nvm>
