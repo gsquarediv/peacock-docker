@@ -16,7 +16,7 @@ RUN set -eux; \
     curl -sSL -H "Accept: application/octet-stream" \
       -o "${FILE_NAME}" \
       "https://github.com/thepeacockproject/Peacock/releases/download/${LATEST_RELEASE}/${FILE_NAME}"; \
-    unzip -q "${FILE_NAME}"; \
+    unzip -q "${FILE_NAME}" -x '*/PeacockPatcher.exe'; \
     rm "${FILE_NAME}"; \
     mv "${FOLDER_NAME}" peacock
 
