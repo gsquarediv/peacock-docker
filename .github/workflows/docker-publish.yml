@@ -71,7 +71,7 @@ jobs:
 
   build:
     needs: check_for_new_release
-    if: ${{ needs.check_for_new_release.outputs.create_new_tag == 'true' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ needs.check_for_new_release.outputs.create_new_tag == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
