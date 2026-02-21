@@ -6,8 +6,10 @@ services:
     volumes:
       - userdata:/peacock/userdata
       - contractSessions:/peacock/contractSessions
+      - plugins:/peacock/plugins
     ports:
       - 3000:3000
 volumes:
   userdata:
   contractSessions:
+  plugins:
