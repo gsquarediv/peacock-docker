@@ -4,7 +4,7 @@ ENV PORT=3000
 EXPOSE $PORT
 
 # install curl
-RUN apt-get update && apt-get install curl unzip -y
+RUN apt-get update && apt-get install curl unzip jq -y
 
 # Download and unpack the latest Peacock (Linux) release
 RUN set -eux; \
