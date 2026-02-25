@@ -59,14 +59,14 @@ docker compose up -d
 | **Multi‑architecture** | Built for `x86_64` & `ARM64`. |
 | **Automatic releases** | GitHub Actions checks for upstream Peacock releases nightly and publishes a new container image as needed. |
 | **Data persistence** | User data & contract sessions are stored in Docker named volumes. |
-| **Self‑contained** | All dependencies (Node, NVM, Peacock binary) are baked in. |
+| **Self‑contained** | All dependencies (Node.js and Peacock binaries) are baked in. |
 | **AGPL‑3.0** | The image respects the upstream license. |
 
 ---
 
 ## 📚 How it works
 
-1. **Containerfile:** Installs `curl`, `unzip`, `node` via NVM, downloads the latest Peacock release, unpacks it, and exposes the required port.
+1. **Containerfile:** Installs `curl`, `unzip`, `node`, downloads the latest Peacock release, unpacks it, and exposes the required port.
 2. **docker-compose.yml:** Exposes three named volumes (`userdata`, `contractSessions`, & `plugins`) so data survives container removal.
 3. **GitHub Actions:**
    * `docker-publish.yml` checks the latest Peacock tag.
@@ -87,4 +87,3 @@ See the [LICENSE](LICENSE) file for details.
 ## 👤 Acknowledgements
 
 * **The Peacock Project** – <https://github.com/thepeacockproject>
-* **Node Version Manager** – <https://github.com/nvm-sh/nvm>
