@@ -1,4 +1,4 @@
-FROM debian:trixie
+FROM debian:trixie-slim
 ENV NVM_DIR=/root/.nvm
 ENV PORT=3000
 EXPOSE $PORT
