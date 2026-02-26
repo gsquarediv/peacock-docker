@@ -23,7 +23,8 @@ RUN set -eux; \
     curl -fsSL "https://raw.githubusercontent.com/nvm-sh/nvm/${LATEST_NVM_RELEASE}/install.sh" | bash
 
 # install node
-RUN bash -c "source $NVM_DIR/nvm.sh && cd /peacock && nvm install"
+RUN bash -c "source $NVM_DIR/nvm.sh && cd /peacock && nvm install"; \
+    rm -rf $NVM_DIR/.cache/*
 
 # set working directory
 WORKDIR /peacock
