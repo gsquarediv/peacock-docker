@@ -1,4 +1,4 @@
-FROM debian:trixie
+FROM debian:trixie-slim
 ENV PORT=3000
 EXPOSE $PORT
 
@@ -22,7 +22,8 @@ RUN set -eux; \
     node_url="https://nodejs.org/dist/${node_version}/node-${node_version}-linux-x64.tar.gz"; \
     mkdir -p /opt/nodejs; \
     curl -fsSL $node_url | tar --strip-components=1 -C /opt/nodejs -zxf -; \
-    ln -s /opt/nodejs/bin/node /usr/local/bin/node
+    ln -s /opt/nodejs/bin/node /usr/local/bin/node; \
+    find /opt/nodejs/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name "linux-x86_64" ! -name "linux-aarch64" -exec rm -rf {} +
 
 WORKDIR /peacock
 
