@@ -24,7 +24,9 @@ RUN set -eux; \
 
 # install node
 RUN bash -c "source $NVM_DIR/nvm.sh && cd /peacock && nvm install"; \
-    rm -rf $NVM_DIR/.cache/*
+    rm -rf $NVM_DIR/.cache/*; \
+    node_version=$(cat peacock/.nvmrc); \
+    find $NVM_DIR/versions/node/$node_version/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name "linux-x86_64" ! -name "linux-aarch64" -exec rm -rf {} +
 
 # set working directory
 WORKDIR /peacock
