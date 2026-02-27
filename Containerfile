@@ -1,4 +1,5 @@
 FROM debian:trixie-slim
+ARG DEBIAN_FRONTEND=noninteractive
 ARG TARGETARCH
 ENV PORT=3000
 EXPOSE $PORT
