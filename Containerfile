@@ -20,16 +20,17 @@ RUN set -eux; \
 # install node
 RUN set -eux; \
     NODE_VERSION=$(cat peacock/.nvmrc); \
-    mkdir /opt/nodejs; \
+    NODE_DIR=/opt/nodejs; \
+    mkdir ${NODE_DIR}; \
     case "${TARGETARCH}" in \
         amd64) NODE_ARCH='x64' OPENSSL_ARCH='linux-x86_64';; \
         arm64) NODE_ARCH='arm64' OPENSSL_ARCH='linux-aarch64';; \
     esac; \
     NODE_URL="https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"; \
-    curl -fsSL "${NODE_URL}" | tar --strip-components=1 -C /opt/nodejs -zxf -; \
-    ln -s /opt/nodejs/bin/node /usr/local/bin/node; \
+    curl -fsSL "${NODE_URL}" | tar --strip-components=1 -C ${NODE_DIR} -zxf -; \
+    ln -s ${NODE_DIR}/bin/node /usr/local/bin/node; \
     if [ -n "${OPENSSL_ARCH}" ]; then \
-        find /opt/nodejs/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name "${OPENSSL_ARCH}" -exec rm -rf {} +; \
+        find ${NODE_DIR}/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name "${OPENSSL_ARCH}" -exec rm -rf {} +; \
     fi
 
 WORKDIR /peacock
