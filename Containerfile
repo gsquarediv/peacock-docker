@@ -29,10 +29,9 @@ RUN set -eux; \
     esac; \
     NODE_URL="https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"; \
     curl -fsSL "${NODE_URL}" | tar --strip-components=1 -C ${NODE_DIR} -zxf -; \
-    ln -s ${NODE_DIR}/bin/node /usr/local/bin/node; \
-    if [ -n "${OPENSSL_ARCH}" ]; then \
-        find ${NODE_DIR}/include/node/openssl/archs -mindepth 1 -maxdepth 1 ! -name "${OPENSSL_ARCH}" -exec rm -rf {} +; \
-    fi
+    ln -s "${NODE_DIR}/bin/node" /usr/local/bin/node; \
+    [ -n "${OPENSSL_ARCH+set}" ] && find "${NODE_DIR}/include/node/openssl/archs" -mindepth 1 -maxdepth 1 ! -name "$OPENSSL_ARCH" -exec rm -rf {} +; \
+    node --version
 
 WORKDIR /peacock
 
