@@ -21,15 +21,13 @@ RUN set -eux; \
 # install node
 RUN set -eux; \
     NODE_VERSION=$(cat peacock/.nvmrc); \
-    NODE_DIR=/opt/nodejs; \
-    mkdir ${NODE_DIR}; \
+    NODE_DIR=/usr/local; \
     case "${TARGETARCH}" in \
         amd64) NODE_ARCH='x64' OPENSSL_ARCH='linux-x86_64';; \
         arm64) NODE_ARCH='arm64' OPENSSL_ARCH='linux-aarch64';; \
     esac; \
     NODE_URL="https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"; \
     curl -fsSL "${NODE_URL}" | tar -xz --strip-components=1 --no-same-owner -C ${NODE_DIR} -f -; \
-    ln -s "${NODE_DIR}/bin/node" /usr/local/bin/node; \
     [ -n "${OPENSSL_ARCH+set}" ] && find "${NODE_DIR}/include/node/openssl/archs" -mindepth 1 -maxdepth 1 ! -name "$OPENSSL_ARCH" -exec rm -rf {} +; \
     node --version
 
