@@ -5,7 +5,7 @@ ENV PORT=3000
 EXPOSE $PORT
 
 # install necessary dependencies
-RUN apt-get update && apt-get install curl unzip jq -y \
+RUN apt-get update && apt-get install -y curl unzip jq iproute2 \
     && rm -rf /var/lib/apt/lists/*
 
 # download and unpack the latest Peacock (Linux) release
