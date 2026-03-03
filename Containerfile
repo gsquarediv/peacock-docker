@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y curl unzip jq iproute2 \
     && rm -rf /var/lib/apt/lists/*
 
 # download and unpack the latest Peacock (Linux) release
-RUN set -eux; \
+RUN set -euxo pipefail; \
     LATEST_RELEASE=$(curl -fsSL -H 'Accept: application/json' 'https://api.github.com/repos/thepeacockproject/Peacock/releases/latest' | jq -r .tag_name); \
     FOLDER_NAME="Peacock-${LATEST_RELEASE}-linux"; \
     FILE_NAME="${FOLDER_NAME}.zip"; \
@@ -18,7 +18,7 @@ RUN set -eux; \
     mv "${FOLDER_NAME}" peacock
 
 # install node
-RUN set -eux; \
+RUN set -euxo pipefail; \
     NODE_VERSION=$(cat peacock/.nvmrc); \
     NODE_DIR=/usr/local; \
     case "${TARGETARCH}" in \
