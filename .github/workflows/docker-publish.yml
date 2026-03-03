@@ -11,6 +11,12 @@ on:
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
+    inputs:
+      hotfix:
+        description: "Push a hotfix build"
+        required: false
+        type: boolean
+        default: false
 
 env:
   # Use docker.io for Docker Hub if empty
@@ -50,7 +56,11 @@ jobs:
           TAG=${{ steps.peacock.outputs.tag }}
           if git ls-remote --tags origin | grep -q "refs/tags/$TAG$"; then
             echo "create_new_tag=false" >> $GITHUB_OUTPUT
-            echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            if [[ "${{ github.event.inputs.hotfix }}" == 'false' ]]; then
+              echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+            else
+              echo "tag=$TAG" >> $GITHUB_OUTPUT
+            fi
           else
             echo "create_new_tag=true" >> $GITHUB_OUTPUT
             echo "tag=$TAG" >> $GITHUB_OUTPUT
@@ -117,7 +127,7 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: |
             type=raw,value=${{ needs.check_for_new_release.outputs.tag }}
-            type=raw,value=latest,enable=${{ needs.check_for_new_release.outputs.create_new_tag }}
+            type=raw,value=latest,enable=${{ needs.check_for_new_release.outputs.create_new_tag == 'true' || github.event.inputs.hotfix == 'true' }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
