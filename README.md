@@ -19,7 +19,7 @@ docker pull ghcr.io/gsquarediv/peacock-docker:latest
 # Run it – expose port 3000 and persist data
 docker run \
   -d \
-  -p 3000:3000 \
+  -p 3000:80 \
   -v userdata:/peacock/userdata \
   -v contractSessions:/peacock/contractSessions \
   -v plugins:/peacock/plugins \
@@ -38,7 +38,7 @@ services:
       - contractSessions:/peacock/contractSessions
       - plugins:/peacock/plugins
     ports:
-      - 3000:3000
+      - 3000:80
 volumes:
   userdata:
   contractSessions:

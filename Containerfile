@@ -1,8 +1,7 @@
 FROM debian:trixie-slim
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TARGETARCH
-ENV PORT=3000
-EXPOSE $PORT
+EXPOSE 80
 
 # install necessary dependencies
 RUN apt-get update && apt-get install -y curl unzip jq iproute2 \
