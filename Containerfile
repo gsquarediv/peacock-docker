@@ -43,4 +43,4 @@ WORKDIR /peacock
 ENTRYPOINT ["node"]
 
 # run Peacock
-CMD ["--enable-source-maps", "chunk0.js"]
+CMD ["chunk0.js"]
