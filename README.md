@@ -30,6 +30,8 @@ docker run \
 
 ```yaml
 # docker-compose.yml
+---
+name: peacock
 services:
   peacock:
     image: ghcr.io/gsquarediv/peacock-docker:latest
