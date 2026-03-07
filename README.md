@@ -23,6 +23,7 @@ docker run \
   -v userdata:/peacock/userdata \
   -v contractSessions:/peacock/contractSessions \
   -v plugins:/peacock/plugins \
+  -v options:/peacock/options \
   ghcr.io/gsquarediv/peacock-docker:latest
 ```
 
@@ -39,6 +40,7 @@ services:
       - userdata:/peacock/userdata
       - contractSessions:/peacock/contractSessions
       - plugins:/peacock/plugins
+      - options:/peacock/options
     ports:
       - 3000:3000
 volumes:

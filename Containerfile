@@ -18,9 +18,12 @@ LATEST_RELEASE=$(curl -fsSL --compressed -H 'Accept: application/json' 'https://
 FOLDER_NAME="Peacock-${LATEST_RELEASE}-linux"
 FILE_NAME="${FOLDER_NAME}.zip"
 curl -fsSLJO -H 'Accept: application/octet-stream' "https://github.com/thepeacockproject/Peacock/releases/latest/download/${FILE_NAME}"
-unzip -q "${FILE_NAME}" -x '*/PeacockPatcher.exe'
-rm "${FILE_NAME}"
-mv "${FOLDER_NAME}" peacock
+unzip -q "$FILE_NAME" -x '*/PeacockPatcher.exe'
+rm "$FILE_NAME"
+mv "$FOLDER_NAME" /peacock
+mkdir /peacock/options
+mv /peacock/options.ini /peacock/options/options.ini
+ln -s /peacock/options/options.ini /peacock/options.ini
 EOT
 
 # install node
@@ -28,12 +31,12 @@ RUN <<EOT
 set -euxo pipefail
 NODE_VERSION=$(cat peacock/.nvmrc)
 NODE_DIR=/usr/local
-case "${TARGETARCH}" in
+case "$TARGETARCH" in
     amd64) NODE_ARCH='x64' OPENSSL_ARCH='linux-x86_64';;
     arm64) NODE_ARCH='arm64' OPENSSL_ARCH='linux-aarch64';;
 esac
 NODE_URL="https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"
-curl -fSL# "${NODE_URL}" | tar -xz --strip-components=1 --no-same-owner -C ${NODE_DIR} -f -
+curl -fSL# "$NODE_URL" | tar -xz --strip-components=1 --no-same-owner -C $NODE_DIR -f -
 find "${NODE_DIR}/include/node/openssl/archs" -mindepth 1 -maxdepth 1 ! -name "$OPENSSL_ARCH" -exec rm -rf {} +
 node --version
 EOT
