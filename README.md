@@ -21,6 +21,7 @@ docker run \
   -d \
   -p 3000:3000 \
   -v userdata:/peacock/userdata \
+  -v contracts:/peacock/contracts \
   -v contractSessions:/peacock/contractSessions \
   -v plugins:/peacock/plugins \
   -v options:/peacock/options \
@@ -38,6 +39,7 @@ services:
     image: ghcr.io/gsquarediv/peacock-docker:latest
     volumes:
       - userdata:/peacock/userdata
+      - contracts:/peacock/contracts
       - contractSessions:/peacock/contractSessions
       - plugins:/peacock/plugins
       - options:/peacock/options
@@ -45,8 +47,10 @@ services:
       - 3000:3000
 volumes:
   userdata:
+  contracts:
   contractSessions:
   plugins:
+  options:
 ```
 
 ```bash
@@ -71,7 +75,7 @@ docker compose up -d
 ## 📚 How it works
 
 1. **Containerfile:** Installs `curl`, `unzip`, `node`, downloads the latest Peacock release, unpacks it, and exposes the required port.
-2. **docker-compose.yml:** Exposes three named volumes (`userdata`, `contractSessions`, & `plugins`) so data survives container removal.
+2. **docker-compose.yml:** Exposes five named volumes (`userdata`, `contracts`, `contractSessions`, `plugins`, & `options`) so data survives container removal.
 3. **GitHub Actions:**
    * `docker-publish.yml` checks the latest Peacock tag.
    * If a new tag appears, a new Docker image is built & pushed to **GitHub Container Registry (ghcr.io)**.
