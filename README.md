@@ -21,37 +21,14 @@ docker run \
   -d \
   -p 3000:3000 \
   -v userdata:/peacock/userdata \
-  -v contracts:/peacock/contracts \
   -v contractSessions:/peacock/contractSessions \
+  -v contracts:/peacock/contracts \
   -v plugins:/peacock/plugins \
   -v options:/peacock/options \
   ghcr.io/gsquarediv/peacock-docker:latest
 ```
 
 > ⚡ **Tip** – If you prefer Docker‑Compose:
-
-```yaml
-# docker-compose.yml
----
-name: peacock
-services:
-  peacock:
-    image: ghcr.io/gsquarediv/peacock-docker:latest
-    volumes:
-      - userdata:/peacock/userdata
-      - contracts:/peacock/contracts
-      - contractSessions:/peacock/contractSessions
-      - plugins:/peacock/plugins
-      - options:/peacock/options
-    ports:
-      - 3000:3000
-volumes:
-  userdata:
-  contracts:
-  contractSessions:
-  plugins:
-  options:
-```
 
 ```bash
 docker compose up -d
@@ -64,6 +41,7 @@ docker compose up -d
 | Feature | Description |
 |---------|-------------|
 | **Zero‑touch installation** | Pull a pre‑built image – no Node.js or Yarn setup needed. |
+| **Offline capable** | Starting with v8.7.0, all offline assets are baked in to the image.  There's no need to run `chunk0.js tools` to download the image pack. |
 | **Multi‑architecture** | Built for `x86_64` & `ARM64`. |
 | **Automatic releases** | GitHub Actions checks for upstream Peacock releases nightly and publishes a new container image as needed. |
 | **Data persistence** | User data & contract sessions are stored in Docker named volumes. |
@@ -75,7 +53,7 @@ docker compose up -d
 ## 📚 How it works
 
 1. **Containerfile:** Installs `curl`, `unzip`, `node`, downloads the latest Peacock release, unpacks it, and exposes the required port.
-2. **docker-compose.yml:** Exposes five named volumes (`userdata`, `contracts`, `contractSessions`, `plugins`, & `options`) so data survives container removal.
+2. **docker-compose.yml:** Exposes five named volumes (`userdata`, `contractSessions`, `contracts`, `plugins`, & `options`) so data survives container removal.
 3. **GitHub Actions:**
    * `docker-publish.yml` checks the latest Peacock tag.
    * If a new tag appears, a new Docker image is built & pushed to **GitHub Container Registry (ghcr.io)**.
