@@ -24,6 +24,9 @@ mv "$FOLDER_NAME" /peacock
 mkdir /peacock/options
 mv /peacock/options.ini /peacock/options/options.ini
 ln -s /peacock/options/options.ini /peacock/options.ini
+curl -fsSLJO -H 'Accept: application/octet-stream' "https://github.com/thepeacockproject/ImagePack/releases/latest/download/ImagePack.zip"
+unzip -q ImagePack.zip -x LICENSE README.md _redirects -d /peacock
+rm ImagePack.zip
 EOT
 
 # install node
@@ -36,7 +39,7 @@ case "$TARGETARCH" in
     arm64) NODE_ARCH='arm64' OPENSSL_ARCH='linux-aarch64';;
 esac
 NODE_URL="https://nodejs.org/dist/${NODE_VERSION}/node-${NODE_VERSION}-linux-${NODE_ARCH}.tar.gz"
-curl -fSL# "$NODE_URL" | tar -xz --strip-components=1 --no-same-owner -C $NODE_DIR -f -
+curl -f#SL "$NODE_URL" | tar -xz --strip-components=1 --no-same-owner -C $NODE_DIR -f -
 find "${NODE_DIR}/include/node/openssl/archs" -mindepth 1 -maxdepth 1 ! -name "$OPENSSL_ARCH" -exec rm -rf {} +
 node --version
 EOT
