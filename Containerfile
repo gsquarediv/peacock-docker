@@ -24,9 +24,10 @@ mv "$FOLDER_NAME" /peacock
 mkdir /peacock/options
 mv /peacock/options.ini /peacock/options/options.ini
 ln -s /peacock/options/options.ini /peacock/options.ini
-curl -fsSLJO -H 'Accept: application/octet-stream' "https://github.com/thepeacockproject/ImagePack/releases/latest/download/ImagePack.zip"
-unzip -q ImagePack.zip -x LICENSE README.md _redirects -d /peacock
-rm ImagePack.zip
+OFFLINE_ASSETS=ImagePack.zip
+curl -fsSLJO -H 'Accept: application/octet-stream' "https://github.com/thepeacockproject/ImagePack/releases/latest/download/${OFFLINE_ASSETS}"
+unzip -q $OFFLINE_ASSETS -x LICENSE README.md _redirects -d /peacock
+rm $OFFLINE_ASSETS
 EOT
 
 # install node
