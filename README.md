@@ -61,15 +61,21 @@ docker compose up -d
 
 ---
 
+## ⭐️ Star History
+
+[![Star History Chart](https://api.star-history.com/chart?repos=gsquarediv/peacock-docker&type=date&theme=dark&legend=bottom-right)](https://www.star-history.com/?repos=gsquarediv%2Fpeacock-docker&type=date&legend=bottom-right)
+
+---
+
+## 👤 Acknowledgements
+
+* **The Peacock Project** – [https://github.com/thepeacockproject](https://github.com/thepeacockproject)
+
+---
+
 ## 📄 License
 
 This project is distributed under the **AGPL‑3.0** license.
 See the [LICENSE](LICENSE) file for details.
 
 > ⚠️ The image contains the Peacock binary, which is itself licensed under AGPL‑3.0.
-
----
-
-## 👤 Acknowledgements
-
-* **The Peacock Project** – <https://github.com/thepeacockproject>
