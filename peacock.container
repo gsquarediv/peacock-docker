@@ -16,6 +16,12 @@ PublishPort=3000:3000
 
 AutoUpdate=registry
 
+HealthCmd=curl -fsS http://localhost:3000 || exit 1
+HealthInterval=60s
+HealthTimeout=5s
+HealthRetries=3
+HealthStartPeriod=20s
+
 [Service]
 Restart=always
 
